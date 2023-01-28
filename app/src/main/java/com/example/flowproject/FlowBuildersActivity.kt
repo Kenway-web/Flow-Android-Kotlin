@@ -60,20 +60,16 @@ class FlowBuildersActivity : AppCompatActivity() {
 //        }
 
         GlobalScope.launch(Dispatchers.Main) {
-            producer()
-                .onStart {
-                    Log.d("TAG","Starting out")
-                    emit(-100)
-                }
-                .onCompletion {
-                    Log.d("TAG","Completed")
-                }
-                .onEach {
-                    Log.d("TAG","About to Emit = $it")
+            getNotes().
+            map {
+                FormattedNote(it.isActive,it.tittle.uppercase(),it.description)
+            }
+                .filter {
+                    it.isActive
                 }
                 .collect{
-                Log.d("TAG","${it.toString()}")
-            }
+                    Log.d("TAG",it.toString())
+                }
         }
 
 
